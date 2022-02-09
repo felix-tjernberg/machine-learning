@@ -1,0 +1,18 @@
+r. v = random variable
+
+OLS = Ordinary least square
+
+numpy.linalg.pinv() = pseudoinvers
+
+TODO byt namn på exercise 1 till 0
+
+gradient = derivata i flera i flera dimension från flera variabler
+
+TODO Titta på en youtube video om derivata
+TODO Titta på en youtube video om matematisk analys derivata integraler
+
+stokastiskt = random, slumpvariabel / stokastiskvariabel
+
+TODO pyenv install
+
+TODO plotta stokastisk GD
