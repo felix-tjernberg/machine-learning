@@ -16,3 +16,5 @@ stokastiskt = random, slumpvariabel / stokastiskvariabel
 TODO pyenv install
 
 TODO plotta stokastisk GD
+
+TODO feature standardization Z skalning
