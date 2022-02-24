@@ -13,6 +13,8 @@ black = "*"
 scikit-learn = "*"
 sklearn = "*"
 tensorflow = "*"
+pillow = "*"
+scikit-image = "*"
 
 [dev-packages]
 
