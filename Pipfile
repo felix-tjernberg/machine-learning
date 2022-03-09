@@ -12,7 +12,6 @@ ipykernel = "*"
 black = "*"
 scikit-learn = "*"
 sklearn = "*"
-tensorflow = {file = "https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.9.0-py3-none-any.whl"}
 pillow = "*"
 scikit-image = "*"
 scipy = "*"
