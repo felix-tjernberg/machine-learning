@@ -103,3 +103,9 @@ other_features_raw = pd.read_csv(
 all_features_dataset = pd.get_dummies(
     cardio_cleaned_with_new_categories, drop_first=True
 ).join(pd.get_dummies(other_features_raw, drop_first=True))
+hundred_samples_from_all_features_dataset = all_features_dataset.sample(
+    n=100, random_state=1337
+)
+all_features_dataset_dropped_samples = all_features_dataset.drop(
+    hundred_samples_from_all_features_dataset.index
+)
