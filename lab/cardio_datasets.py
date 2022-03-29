@@ -1,14 +1,16 @@
 import pandas as pd
 
-cardio_raw = pd.read_csv(
-    "./data/cardio_train.csv",
-    sep=";",
-    dtype={"gluc": "category", "cholesterol": "category"},
-).drop(columns=["id", "alco", "active", "smoke", "gender"])
+cardio_raw = pd.get_dummies(
+    pd.read_csv("./data/cardio_train.csv", sep=";", dtype={"gender": "category"}).drop(
+        columns=["id"]
+    ),
+    drop_first=True,
+)
 
 height_in_m = cardio_raw.query("height > 147 & height < 250")["height"].apply(
     lambda height: height * 0.01
 )
+
 height_weight_cleaned = cardio_raw.drop(columns=["height"]).join(height_in_m).dropna()
 
 bmi_raw = cardio_raw.join(
@@ -16,6 +18,7 @@ bmi_raw = cardio_raw.join(
         lambda row: 1.3 * row.weight / pow(row.height, 2.5), axis=1
     ).rename("BMI")
 ).dropna()
+
 bmi_cleaned = bmi_raw.drop(bmi_raw.query("BMI < 16 | BMI > 60").index)
 
 cardio_raw_with_bmi = bmi_cleaned.join(
@@ -66,46 +69,28 @@ cardio_cleaned_with_new_categories = blood_pressure_cleaned.join(
     )
 )
 
-categorial_data_set = pd.get_dummies(
+categorial_dataset = pd.get_dummies(
     cardio_cleaned_with_new_categories.drop(
-        columns=["ap_hi", "ap_lo", "height", "weight", "BMI", "age"]
+        columns=["ap_hi", "ap_lo", "height", "weight", "BMI"]
     ),
     drop_first=True,
 )
 
 continuous_dataset = cardio_cleaned_with_new_categories.drop(
-    columns=["Blood Pressure Category", "BMI Category"]
+    columns=["Blood Pressure Category", "BMI Category", "height", "weight"]
 )
 
-other_features_raw = pd.read_csv(
-    "./data/cardio_train.csv",
-    sep=";",
-    dtype={
-        "cholesterol": "category",
-        "gender": "category",
-        "smoke": "category",
-        "alco": "category",
-        "active": "category",
-    },
-).drop(
+full_dataset = cardio_cleaned_with_new_categories
+
+reduced_dataset = cardio_cleaned_with_new_categories.drop(
     columns=[
-        "id",
-        "age",
+        "Blood Pressure Category",
+        "BMI Category",
         "height",
         "weight",
-        "ap_hi",
-        "ap_lo",
-        "cardio",
-        "cholesterol",
-        "gluc",
+        "active",
+        "alco",
+        "smoke",
+        "gender_2",
     ]
-)
-all_features_dataset = pd.get_dummies(
-    cardio_cleaned_with_new_categories, drop_first=True
-).join(pd.get_dummies(other_features_raw, drop_first=True))
-hundred_samples_from_all_features_dataset = all_features_dataset.sample(
-    n=100, random_state=1337
-)
-all_features_dataset_dropped_samples = all_features_dataset.drop(
-    hundred_samples_from_all_features_dataset.index
 )
