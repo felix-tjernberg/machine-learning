@@ -1,5 +1,5 @@
 import pandas
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import (
     classification_report,
     confusion_matrix,
@@ -78,3 +78,28 @@ def search_score_and_evalute_parameters(
     )
     show_evaluation_metrics(fitted_model, X_test, y_test)
     return fitted_model, model_parameters_and_score, model_score_raw
+
+
+def create_train_test_eval_split(data_frame: pandas.DataFrame, target_column: str):
+    "Returns dictionary with full_split and eval_split"
+    X, y = create_X_y_from_data_frame(data_frame, target_column)
+    X_train_full, X_test_full, y_train_full, y_test_full = train_test_split(
+        X, y, test_size=0.3, random_state=42
+    )
+    X_train_eval, X_test_eval, y_train_eval, y_test_eval = train_test_split(
+        X_train_full, y_train_full, test_size=0.3, random_state=42
+    )
+    return {
+        "full_split": {
+            "X_train": X_train_full,
+            "X_test": X_test_full,
+            "y_train": y_train_full,
+            "y_test": y_test_full,
+        },
+        "eval_split": {
+            "X_train": X_train_eval,
+            "X_test": X_test_eval,
+            "y_train": y_train_eval,
+            "y_test": y_test_eval,
+        },
+    }
