@@ -69,20 +69,25 @@ cardio_cleaned_with_new_categories = blood_pressure_cleaned.join(
     )
 )
 
+cardio_100_samples = cardio_cleaned_with_new_categories.sample(n=100, random_state=1338)
+cardio_dropped_100_samples = cardio_cleaned_with_new_categories.drop(
+    cardio_100_samples.index
+)
+
 categorial_dataset = pd.get_dummies(
-    cardio_cleaned_with_new_categories.drop(
+    cardio_dropped_100_samples.drop(
         columns=["ap_hi", "ap_lo", "height", "weight", "BMI"]
     ),
     drop_first=True,
 )
 
-continuous_dataset = cardio_cleaned_with_new_categories.drop(
+continuous_dataset = cardio_dropped_100_samples.drop(
     columns=["Blood Pressure Category", "BMI Category", "height", "weight"]
 )
 
-full_dataset = cardio_cleaned_with_new_categories
+full_dataset = cardio_dropped_100_samples
 
-reduced_dataset = cardio_cleaned_with_new_categories.drop(
+reduced_dataset = cardio_dropped_100_samples.drop(
     columns=[
         "Blood Pressure Category",
         "BMI Category",
