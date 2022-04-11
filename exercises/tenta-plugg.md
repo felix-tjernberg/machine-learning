@@ -8,7 +8,7 @@
 
 ### Mini batch GD
 
-## PCA principial component
+## PCA principal component analysis
 
 - Preprocessing of data to reduce dimension to avoid curse of dimensionality
 - Lågdimensionell representation av datasetet
